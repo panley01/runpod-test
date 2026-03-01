@@ -38,7 +38,7 @@ def handler(event):
     image.save(buff, format='png')
     image_string = base64.b64encode(buff.getvalue()).decode('utf-8')
 
-    return {image: image_string}
+    return {'image': image_string}
 
 # Start the Serverless function when the script is run
 if __name__ == '__main__':
