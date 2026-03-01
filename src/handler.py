@@ -8,7 +8,7 @@ from diffusers import FluxPipeline
 token = os.environ.get('HF_TOKEN')
 model = '/models/main.pt'
 if not token:
-    raise ValueError('Please set your HF_TOKEN environment variable')
+    raise ValueError('Set your HF_TOKEN environment variable')
 
 print('Loading FLUX.1-dev')
 pipe = FluxPipeline.from_pretrained(
