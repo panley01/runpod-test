@@ -6,14 +6,16 @@ from io import BytesIO
 from diffusers import FluxPipeline
 
 token = os.environ.get('HF_TOKEN')
+model = '/models/main.pt'
 if not token:
     raise ValueError('Please set your HF_TOKEN environment variable')
 
 print('Loading FLUX.1-dev')
 pipe = FluxPipeline.from_pretrained(
-    'black-forest-labs/FLUX.1-dev',
+    model,
     torch_dtype=torch.bfloat16,
-    token=token
+    token=token,
+    local_files_only=True
 )
 
 pipe.enable_model_cpu_offload()
