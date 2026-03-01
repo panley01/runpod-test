@@ -6,7 +6,7 @@ from io import BytesIO
 from diffusers import FluxPipeline
 
 token = os.environ.get('HF_TOKEN')
-model = os.environ.get('MODEL')
+model = "black-forest-labs/FLUX.1-dev"
 if not token:
     raise ValueError('Please set your HF_TOKEN environment variable')
 
