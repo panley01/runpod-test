@@ -27,13 +27,14 @@ def handler(event):
 
     image = pipe(
         prompt = prompt,
-        height=input.get('height', 1024),
-        width=input.get('width', 1024),
-        max_sequence_length=512
+        height = input.get('height', 1024),
+        width = input.get('width', 1024),
+        device_map = 'cuda',
+        max_sequence_length = 512
     ).images[0]
 
     buff = BytesIO()
-    image.save(buff, format='png')
+    image.save(buff, format = 'png')
     image_string = base64.b64encode(buff.getvalue()).decode('utf-8')
 
     return {'image': image_string}
