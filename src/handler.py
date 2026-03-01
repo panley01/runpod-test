@@ -17,8 +17,6 @@ pipe = FluxPipeline.from_pretrained(
     token=token
 )
 
-pipe.enable_model_cpu_offload()
-
 def handler(event):
     print(f'Worker Start')
     input = event['input']
