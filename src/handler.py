@@ -1,29 +1,43 @@
 import runpod
-import time  
+import torch
+import os
+import base64
+from io import BytesIO
+from diffusers import FluxPipeline
+
+token = os.environ.get('HF_TOKEN')
+if not token:
+    raise ValueError('Please set your HF_TOKEN environment variable')
+
+print('Loading FLUX.1-dev')
+pipe = FluxPipeline.from_pretrained(
+    'black-forest-labs/FLUX.1-dev',
+    torch_dtype=torch.bfloat16,
+    token=token
+)
+
+pipe.enable_model_cpu_offload()
 
 def handler(event):
-#   This function processes incoming requests to your Serverless endpoint.
-#
-#    Args:
-#        event (dict): Contains the input data and request metadata
-#       
-#    Returns:
-#       Any: The result to be returned to the client
-    
-    # Extract input data
-    print(f"Worker Start")
+    print(f'Worker Start')
     input = event['input']
     
-    prompt = input.get('prompt')  
-    seconds = input.get('seconds', 0)  
+    prompt = input.get('prompt')
 
-    print(f"Received prompt: {prompt}")
-    print(f"Sleeping for {seconds} seconds...")
-    
-    # You can replace this sleep call with your own Python code
-    time.sleep(seconds)  
-    
-    return prompt 
+    print(f'Received prompt: {prompt}')
+
+    image = pipe(
+        prompt = prompt,
+        height=input.get('height', 1024),
+        width=input.get('width', 1024),
+        max_sequence_length=512
+    ).images[0]
+
+    buff = BytesIO()
+    image.save(buff, format='png')
+    image_string = base64.b64encode(buff.getvalue()).decode('utf-8')
+
+    return {image: image_string}
 
 # Start the Serverless function when the script is run
 if __name__ == '__main__':
