@@ -38,6 +38,5 @@ def handler(event):
 
     return {'image': image_string}
 
-# Start the Serverless function when the script is run
 if __name__ == '__main__':
     runpod.serverless.start({'handler': handler })
