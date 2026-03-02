@@ -35,7 +35,7 @@ def handler(event):
 
     buff = BytesIO()
     image.save(buff, format = 'png')
-    image_string = base64.b64encode(buff.getvalue()).decode('utf-8')
+    image_string = f'data:image/png;base64,{base64.b64encode(buff.getvalue()).decode('utf-8')}'
 
     return {'image': image_string}
 
