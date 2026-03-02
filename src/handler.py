@@ -30,7 +30,6 @@ def handler(event):
         prompt = prompt,
         height = input.get('height', 1024),
         width = input.get('width', 1024),
-        device_map = 'cuda',
         max_sequence_length = 512
     ).images[0]
 
