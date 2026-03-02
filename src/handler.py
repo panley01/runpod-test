@@ -10,6 +10,8 @@ model = "black-forest-labs/FLUX.1-dev"
 if not token:
     raise ValueError('Please set your HF_TOKEN environment variable')
 
+# Model is gated, auth is required for download due to licencing consent
+
 print('Loading FLUX.1-dev')
 pipe = FluxPipeline.from_pretrained(
     model,
@@ -17,6 +19,8 @@ pipe = FluxPipeline.from_pretrained(
     token=token,
     device_map = 'cuda',
 )
+
+# Define model outside of handler, to ensure this (heavy) process is not initiated on every call to the endpoint
 
 def handler(event):
     print(f'Worker Start')
@@ -34,8 +38,11 @@ def handler(event):
     ).images[0]
 
     buff = BytesIO()
-    image.save(buff, format = 'png')
-    image_string = f'data:image/png;base64,{base64.b64encode(buff.getvalue()).decode('utf-8')}'
+    image.save(buff, format = 'JPEG')
+    image_b64 = base64.b64encode(buff.getvalue()).decode('utf-8')
+    image_string = f'data:image/jpeg;base64, {image_b64}'
+
+    # Converting PIL Image to Base64 URI for easy display on frontend
 
     return {'image': image_string}
 
