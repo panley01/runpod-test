@@ -3,7 +3,7 @@ import torch
 import os
 import base64
 from io import BytesIO
-from diffusers import FluxPipeline
+from diffusers import DiffusionPipeline
 
 token = os.environ.get('HF_TOKEN')
 model = "black-forest-labs/FLUX.1-dev"
@@ -11,7 +11,7 @@ if not token:
     raise ValueError('Please set your HF_TOKEN environment variable')
 
 print('Loading FLUX.1-dev')
-pipe = FluxPipeline.from_pretrained(
+pipe = DiffusionPipeline.from_pretrained(
     model,
     torch_dtype=torch.bfloat16,
     token=token
