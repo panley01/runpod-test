@@ -4,13 +4,14 @@ import os
 from transformers import pipeline
 
 token = os.environ.get('HF_TOKEN')
-model = "meta-llama/Meta-Llama-3.1-8B"
+
+model = "Qwen/Qwen2.5-7B"
 if not token:
     raise ValueError('Please set your HF_TOKEN environment variable')
 
 # Model is gated, auth is required for download due to licencing consent
 
-pipe = pipeline("text-generation", model="meta-llama/Llama-3.1-8B")
+pipe = pipeline("text-generation", model=model)
 
 # Define model outside of handler, to ensure this (heavy) process is not initiated on every call to the endpoint
 
