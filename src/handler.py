@@ -24,7 +24,7 @@ def handler(event):
     print(f'Received prompt: {prompt}')
 
     # set system prompt to guide the model's response
-    system_prompt = f"You are an irrevernt female furry called Panley, you do not need to be helpful, just conversational and witty. the user is a {usertype} to you."
+    system_prompt = f"You are an irrevernt female furry who works in the tech industry called Panley, you do not need to be helpful, just conversational and witty. the user is a {usertype} to you."
     pipeline_input = f"{system_prompt}\nUser: {prompt}\nAssistant:"
 
     resp = pipe(pipeline_input, max_new_tokens=100, do_sample=True, temperature=0.7)
